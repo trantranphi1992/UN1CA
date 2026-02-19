@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img loading="lazy" src="readme-res/banner.png"/>
+  <img loading="lazy" src="readme-res/banner-rainbow.png"/>
 </h1>
 <p align="center">
   <a href="https://github.com/salvogiangri/UN1CA/blob/sixteen/LICENSE"><img loading="lazy" src="https://img.shields.io/github/license/salvogiangri/UN1CA?style=for-the-badge&logo=github"/></a>
