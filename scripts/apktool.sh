@@ -1,20 +1,6 @@
 #!/usr/bin/env bash
-#
-# Copyright (C) 2025 Salvo Giangreco
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Copyright (c) 2025 Salvo Giangreco
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 # [
 source "$SRC_DIR/scripts/utils/build_utils.sh" || exit 1
@@ -110,13 +96,6 @@ DECODE()
     # - Use .locals directive instead of the .registers one
     # - Use a sequential numbering scheme for labels
     EVAL "apktool d --no-debug-info -j \"$THREAD_COUNT\" -o \"$OUTPUT_PATH\" -p \"$FRAMEWORK_DIR\" -t \"$FRAMEWORK_TAG\" \"$INPUT_FILE\"" || exit 1
-
-    # https://github.com/iBotPeaches/Apktool/issues/3615
-    if [[ "$INPUT_FILE" == *"framework.jar" ]]; then
-        if unzip -l "$INPUT_FILE" | grep -q "debian.mime.types"; then
-            unzip -q "$INPUT_FILE" "res/*" -d "$OUTPUT_PATH/unknown"
-        fi
-    fi
 }
 
 PREPARE_SCRIPT()
