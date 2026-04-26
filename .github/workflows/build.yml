@@ -77,13 +77,11 @@ jobs:
           mkdir -p apk-to-upload
           find . -name "*.apk" -type f -exec cp {} apk-to-upload/ \;
 
-      - name: Upload Build Artifact
+      - name: Upload APKs
         uses: actions/upload-artifact@v4
         with:
-         name: my-artifact-name  # Tên của artifact khi tải về
-         path: path/to/artifact/ # Đường dẫn đến file hoặc folder cần upload
-         retention-days: 5       # (Tùy chọn) Thời gian lưu trữ (mặc định 90 ngày)
-
+         name: android-builds
+         path: apk-to-upload/
 
       - name: Build ROM
         run: |
