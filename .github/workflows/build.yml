@@ -47,18 +47,11 @@ jobs:
           sudo apt update
           DEBIAN_FRONTEND=noninteractive sudo apt install -yq \
             7zip attr ccache clang ffmpeg \
-            libbrotli-dev libgtest-dev libprotobuf-dev libunwind-dev libpcre2-dev \
+            libbrotli-dev openjdk-21-jdk libgtest-dev libprotobuf-dev libunwind-dev libpcre2-dev \
             libzstd-dev linux-modules-extra-$(uname -r) lld protobuf-compiler webp
           sudo modprobe erofs f2fs
           git config --global user.name "trantranphi1992"
           git config --global user.email "trantranphi1992@gmail.com"
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
 
       - name: Build dependencies
         run: |
