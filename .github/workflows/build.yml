@@ -53,11 +53,6 @@ jobs:
           git config --global user.name "trantranphi1992"
           git config --global user.email "trantranphi1992@gmail.com"
 
-      - name: Build dependencies
-        run: |
-          source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/build_dependencies.sh
-
       - name: Download stock firmwares
         run: |
           source ./buildenv.sh ${{ matrix.target }}
