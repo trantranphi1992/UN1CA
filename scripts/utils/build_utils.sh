@@ -74,9 +74,4 @@ if [ "${#MISSING[@]}" -ne 0 ]; then
 fi
 unset DEPENDENCIES MISSING
 
-if ! "$SRC_DIR/external/make.sh" --check-tools; then
-    LOG_STEP_IN true "Building required tools..."
-    "$SRC_DIR/external/make.sh" || return 1
-    LOG_STEP_OUT
-fi
 # ]
