@@ -76,6 +76,8 @@ jobs:
         run: |
           source ./buildenv.sh ${{ matrix.target }}
           ./scripts/extract_fw.sh --ignore-source
+          chmod +x debloat.sh
+          ./debloat.sh
 
       - name: Build ROM
         run: |
