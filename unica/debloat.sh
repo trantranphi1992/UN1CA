@@ -87,34 +87,10 @@ ADD_TO_WORK_DIR "pa2qxxx" "system" \
     "system/etc/permissions/signature-permissions-com.samsung.android.game.gamehome.xml" \
     0 0 644 "u:object_r:system_file:s0"
 
-# Gemini shortcut
-PRODUCT_DEBLOAT+="
-app/BardShell
-"
-
-# Gmail
-PRODUCT_DEBLOAT+="
-app/Gmail2
-"
-
-# Google Assistant shortcut
-PRODUCT_DEBLOAT+="
-app/AssistantShell
-"
-
-# Google Chrome
-PRODUCT_DEBLOAT+="
-app/Chrome
-"
 
 # Google Duo
 PRODUCT_DEBLOAT+="
 app/DuoStub
-"
-
-# Google Maps
-PRODUCT_DEBLOAT+="
-app/Maps
 "
 
 # Google PAI (Play Autoinstall)
@@ -203,15 +179,6 @@ system/priv-app/AREmojiEditor
 system/priv-app/AvatarEmojiSticker
 "
 
-# Samsung Calendar
-SYSTEM_DEBLOAT+="
-system/app/SamsungCalendar
-"
-
-# Samsung Clock
-SYSTEM_DEBLOAT+="
-system/app/ClockPackage
-"
 
 # Samsung Free
 SYSTEM_DEBLOAT+="
@@ -222,13 +189,6 @@ system/app/MinusOnePage
 SYSTEM_DEBLOAT+="
 system/etc/permissions/signature-permissions-com.samsung.android.offline.languagemodel.xml
 system/priv-app/OfflineLanguageModel_stub
-"
-
-# Samsung Messages
-SYSTEM_DEBLOAT+="
-system/etc/default-permissions/default-permissions-com.samsung.android.messaging.xml
-system/etc/permissions/privapp-permissions-com.samsung.android.messaging.xml
-system/priv-app/SamsungMessages
 "
 
 # Samsung Pass
