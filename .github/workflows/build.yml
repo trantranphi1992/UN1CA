@@ -1,4 +1,4 @@
-name: Build
+Name: Build
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [a52sxq, a73xq, m52xq, o1s, p3s, r9s, t2s]
+        target: [b0q]
 
     steps:
       - name: Checkout repo
@@ -46,7 +46,7 @@ jobs:
         run: |
           sudo apt update
           DEBIAN_FRONTEND=noninteractive sudo apt install -yq \
-            7zip attr ccache clang ffmpeg \
+            7zip attr ccache clang ffmpeg jq \
             libbrotli-dev libgtest-dev libprotobuf-dev libunwind-dev libpcre2-dev \
             libzstd-dev linux-modules-extra-$(uname -r) lld protobuf-compiler webp
           sudo modprobe erofs f2fs
@@ -70,14 +70,49 @@ jobs:
       - name: Download stock firmwares
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/download_fw.sh
+          ./scripts/download_fw.sh --ignore-source
 
       - name: Extract stock firmwares
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/extract_fw.sh
+          ./scripts/extract_fw.sh --ignore-source
 
       - name: Build ROM
         run: |
           source ./buildenv.sh ${{ matrix.target }}
-          ./scripts/make_rom.sh --no-rom-zip
+          ./scripts/make_rom.sh
+
+      - name: Upload to Pixeldrain
+        env:
+          PD_API_KEY: ${{ secrets.PIXELDRAIN_API_KEY }}
+        run: |
+          # Tìm file zip trong thư mục out/
+          ZIP_FILE=$(ls out/*.zip | head -n 1)
+          
+          if [ -z "$ZIP_FILE" ]; then
+            echo "::error::Không tìm thấy file zip nào trong thư mục out/"
+            exit 1
+          fi
+          
+          FILENAME=$(basename "$ZIP_FILE")
+          echo "Đang upload $FILENAME lên Pixeldrain..."
+          
+          # Upload bằng API Key (Sử dụng Basic Auth với user trống và password là API Key)
+          # Thêm -S -s để chạy ẩn nhưng vẫn báo lỗi nếu có
+          RESPONSE=$(curl -S -s -u ":$PD_API_KEY" -T "$ZIP_FILE" https://pixeldrain.com/api/file/)
+          
+          # Kiểm tra kết quả bằng jq
+          SUCCESS=$(echo $RESPONSE | jq -r '.success')
+          FILE_ID=$(echo $RESPONSE | jq -r '.id')
+          
+          if [ "$SUCCESS" = "true" ]; then
+            echo "--------------------------------------------------"
+            echo "UPLOAD THÀNH CÔNG!"
+            echo "File: $FILENAME"
+            echo "Link tải: https://pixeldrain.com/u/$FILE_ID"
+            echo "--------------------------------------------------"
+          else
+            echo "::error::Upload thất bại!"
+            echo "Phản hồi từ server: $RESPONSE"
+            exit 1
+          fi
